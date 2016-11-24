@@ -1,0 +1,10 @@
+e.g:
+vendor ID (vid) = 0x16 (22) [32 bit]
+product ID (pid) = 0x44 (68) [16 bit]
+vendor = RadCo [32 characters]
+product = SuperT [32 characters]
+product-version = 1 [8 bit]
+
+From the “tools/” directory, run
+
+python dip-header-generator.py SuperTEEPROM.img --vid 22 --pid 68 --vendor 'RadCo' --product 'SuperT' --product-version 1
