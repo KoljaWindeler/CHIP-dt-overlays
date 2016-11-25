@@ -15,11 +15,13 @@ list_file()
 		fi
 		NR=$((NR+1))
 	done
+	MAX_FILE=$((NR-1))
 }
 
 list_sys()
 {
 	rm /tmp/eeprom &2>/dev/null
+	NR=1
 	for e in /sys/bus/w1/devices/*/eeprom; do :
 		e_SHORT=`echo $e|rev|cut -d "/" -f2|rev`
 		TRY=0
@@ -41,11 +43,12 @@ list_sys()
 		decode /tmp/eeprom
 		if [ "$MAGIC" = "CHIP" ]; then :			
 			echo "$VENDOR_NAME, $PRODUCT_NAME (v$PRODUCT_V)"
-			NR=$((NR+1))
 		else
 			echo "Not a CHIP DIP EEPROM image"
 		fi
+		NR=$((NR+1))
 	done
+	MAX_EEPROM=$((NR-1))
 }
 
 decode() {
@@ -85,10 +88,12 @@ PRODUCT_ID=
 PRODUCT_V=
 VENDOR_NAME=
 PRODUCT_NAME=
-NR=1
+NR=
 IMG_NAME=
 IMG_FILE=
 EEPROM_FILE=
+MAX_EEPROM=
+MAX_FILE=
 modprobe w1_ds2431
 
 echo ""
@@ -97,8 +102,11 @@ echo "=========================="
 echo "List of all connected ICs:"
 list_sys
 if [ $NR -gt 2 ]; then : # at least 2 found 
-	echo -n "Which IC do you want to program > "
-	read EEPROM_NR
+	EEPROM_NR=99999
+	while [ $EEPROM_NR -gt $MAX_EEPROM ]; do
+		echo -n "Which IC do you want to program > "
+		read EEPROM_NR
+	done
 else 
 	echo "only one available, choosing (1)"
 	EEPROM_NR=1
@@ -108,8 +116,11 @@ echo "=========================="
 echo "List of all available images"
 list_file
 if [ $NR -gt 2 ]; then : # at least 2 found 
-	echo -n "Which image do you want to flash > "
-	read IMG_NR
+	IMG_NR=99999
+	while [ $IMG_NR -gt $MAX_FILE ]; do
+		echo -n "Which image do you want to flash > "
+		read IMG_NR
+	done
 else 
 	echo "only one available, choosing (1)"
 	IMG_NR=1
