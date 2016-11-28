@@ -1,3 +1,0 @@
-#firmware/*.dtbo /lib/firmware/nextthingco/chip/
-samples/*.dtbo /lib/firmware/nextthingco/chip/
-firmware/early/*.dtbo /lib/firmware/nextthingco/chip/early/
