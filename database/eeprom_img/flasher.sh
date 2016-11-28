@@ -20,7 +20,7 @@ list_file()
 
 list_sys()
 {
-	rm /tmp/eeprom &2>/dev/null
+	rm /tmp/eeprom >/dev/null 2>&1
 	NR=1
 	for e in /sys/bus/w1/devices/*/eeprom; do :
 		e_SHORT=`echo $e|rev|cut -d "/" -f2|rev`
