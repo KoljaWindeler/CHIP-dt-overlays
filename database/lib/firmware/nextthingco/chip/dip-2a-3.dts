@@ -151,22 +151,22 @@
 					gpios = <&csp_keys 4 GPIO_ACTIVE_LOW>; // pin 0.4, active_low
 				};
 				button@05 {
-					label = "vol+_D";
+					label = "vol+_v";
 					linux,code = <0x2f>;
 					gpios = <&csp_keys 5 GPIO_ACTIVE_LOW>; // pin 0.5, active_low
 				};
 				button@06 {
-					label = "vol-_C";
+					label = "vol-_c";
 					linux,code = <0x2e>;
 					gpios = <&csp_keys 6 GPIO_ACTIVE_LOW>; // pin 0.6, active_low
 				};
 				button@07 {
-					label = "dipl_e";
-					linux,code = <0x30>;
+					label = "dipl_m";
+					linux,code = <0x32>;
 					gpios = <&csp_keys 7 GPIO_ACTIVE_LOW>; // pin 0.7, active_low
 				};
 				button@10 {
-					label = "mute_f";
+					label = "mute_n";
 					linux,code = <0x31>; // hex
 					gpios = <&csp_keys 8 GPIO_ACTIVE_LOW>; // pin 1.0, active_low
 				};
@@ -202,7 +202,7 @@
 				};
 				button@17 {
 					label = "start_enter";
-					linux,code = <0x28>;
+					linux,code = <0x1c>;
 					gpios = <&csp_keys 15 GPIO_ACTIVE_LOW>; // pin 1.7, active_low
 				};
 			};
