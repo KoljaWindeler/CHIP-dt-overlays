@@ -91,10 +91,37 @@ PRODUCT_NAME=
 NR=
 IMG_NAME=
 IMG_FILE=
+IMG_NR=999
+EEPROM_NR=999
 EEPROM_FILE=
 MAX_EEPROM=
 MAX_FILE=
 modprobe w1_ds2431
+confirm=""
+
+while [[ $# -gt 0 ]]; do
+	key="$1"
+
+	case $key in
+	    -y|--yes)
+	    confirm="y"
+	    ;;
+	    -e|--eeprom)
+	    EEPROM_NR="$2"
+	    shift # past argument
+	    ;;
+	    -i|--img)
+	    IMG_NR="$2"
+	    shift # past argument
+	    ;;
+	    *)
+	            # unknown option
+	    ;;
+	esac
+
+	shift # past argument or value
+done
+
 
 echo ""
 echo "Welcome to the CHIP EEPROM flasher tool"
@@ -102,11 +129,14 @@ echo "=========================="
 echo "List of all connected ICs:"
 list_sys
 if [ $NR -gt 2 ]; then : # at least 2 found 
-	EEPROM_NR=99999
-	while [ $EEPROM_NR -gt $MAX_EEPROM ]; do
-		echo -n "Which IC do you want to program > "
-		read EEPROM_NR
-	done
+	if [ $EEPROM_NR -eq 999 ]; then :
+		while [ $EEPROM_NR -gt $MAX_EEPROM ]; do
+			echo -n "Which IC do you want to program > "
+			read EEPROM_NR
+		done
+	else
+		echo "Select EEPROM ($EEPROM_NR)"
+	fi
 else 
 	echo "only one available, choosing (1)"
 	EEPROM_NR=1
@@ -116,11 +146,14 @@ echo "=========================="
 echo "List of all available images"
 list_file
 if [ $NR -gt 2 ]; then : # at least 2 found 
-	IMG_NR=99999
-	while [ $IMG_NR -gt $MAX_FILE ]; do
-		echo -n "Which image do you want to flash > "
-		read IMG_NR
-	done
+	if [ $IMG_NR -eq 999 ]; then :
+		while [ $IMG_NR -gt $MAX_FILE ]; do
+			echo -n "Which image do you want to flash > "
+			read IMG_NR
+		done
+	else
+		echo "Select image ($IMG_NR)"
+	fi
 else 
 	echo "only one available, choosing (1)"
 	IMG_NR=1
@@ -128,7 +161,6 @@ fi
 echo ""
 echo "=========================="
 
-confirm=""
 ##### get image file for selected nr
 NR=1
 for f in $DIR/*.img; do :
