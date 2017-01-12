@@ -98,6 +98,7 @@ MAX_EEPROM=
 MAX_FILE=
 modprobe w1_ds2431
 confirm=""
+REBOOT=""
 
 while [[ $# -gt 0 ]]; do
 	key="$1"
@@ -109,6 +110,9 @@ while [[ $# -gt 0 ]]; do
 	    -e|--eeprom)
 	    EEPROM_NR="$2"
 	    shift # past argument
+	    ;;
+	    -r|--reboot)
+	    REBOOT="1"
 	    ;;
 	    -i|--img)
 	    IMG_NR="$2"
@@ -198,3 +202,9 @@ if [ "$confirm" = "y" ]; then :
 	fi
 fi
 
+##### reboot
+if [ "$REBOOT" = "1" ]; then :
+	echo "rebooting now ..."
+	sleep 2;
+	sudo reboot now;
+fi
