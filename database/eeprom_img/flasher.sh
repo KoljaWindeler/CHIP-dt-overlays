@@ -1,4 +1,6 @@
 #!/bin/bash
+# call e.g.  flasher.sh -e 1 -i 2 -y -r
+
 list_file()
 {
 	NR=1
